@@ -1,0 +1,41 @@
+// Payload Decoder for 4* truebner SMT100
+
+function Decoder(bytes, port) {
+  // Extract battery level from the first 2 bytes
+  var battery = ((bytes[0] << 8 | bytes[1]) / 1000);
+  
+  // Initialize the data object with the battery level
+  var data = {
+    Batterie: battery
+  };
+  
+  {
+    // Extract the values from the bytes, convert to decimal.
+    //RETURN1
+    var temperature1 = ((bytes[3] << 8 | bytes[4]) / 100)-100;
+    var moisture1 = ((bytes[5] << 8 | bytes[6]) / 100);
+    //RETURN2
+    var temperature2 = ((bytes[7] << 8 | bytes[8]) / 100)-100;
+    var moisture2 = ((bytes[9] << 8 | bytes[10]) / 100);
+    //RETURN3
+    var temperature3= ((bytes[11] << 8 | bytes[12]) / 100)-100;
+    var moisture3 = ((bytes[13] << 8 | bytes[14]) / 100);
+    //RETURN4
+    var temperature4 = ((bytes[15] << 8 | bytes[16]) / 100)-100;
+    var moisture4 = ((bytes[17] << 8 | bytes[18]) / 100);
+    //RETURN5
+   
+
+    // Assign the values to the data object with dynamic keys
+    data['Bodentemperatur_10cm'] = temperature1;
+    data['Bodenfeuchte_10cm'] = moisture1;
+    data['Bodentemperatur_30cm'] = temperature2;
+    data['Bodenfeuchte_30cm'] = moisture2;
+    data['Bodentemperatur_60cm'] = temperature3;
+    data['Bodenfeuchte_60cm'] = moisture3;
+    data['Bodentemperatur_80cm'] = temperature4;
+    data['Bodenfeuchte_80cm'] = moisture4;
+  }
+
+  return data;
+}
