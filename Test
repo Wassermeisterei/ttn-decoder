@@ -1,0 +1,35 @@
+// PAYLOAD DECODER FOR 8 values
+
+function Decoder(bytes, port) {
+  // Extract battery level from the first 2 bytes
+  var battery = ((bytes[0] << 8 | bytes[1]) / 1000);
+  
+  // Initialize the data object with the battery level
+  var data = {
+    Batterie: battery
+  };
+  
+  {
+    // Extract the values from the bytes, convert to decimal.
+    var data1 = (bytes[3] << 8 | bytes[4]) / 10;
+    var data2 = (bytes[5] << 8 | bytes[6]) / 10;
+    var data3 = (bytes[7] << 8 | bytes[8]) / 10;
+    var data4= (bytes[9] << 8 | bytes[10]) / 10;
+    var data5 = (bytes[11] << 8 | bytes[12]) / 10;
+    var data6= (bytes[13] << 8 | bytes[14]) / 10;
+    var data7 = (bytes[15] << 8 | bytes[16]) / 10;
+    var data8 = (bytes[16] << 8 | bytes[18]) / 10;
+
+    // Assign the values to the data object with dynamic keys
+    data['data1'] = data1;
+    data['data2'] = data2;
+    data['data3'] = data3;
+    data['data4'] = data4;
+    data['data5'] = data5;
+    data['data6'] = data6;
+    data['data7'] = data7;
+    data['data8'] = data8;
+  }
+
+  return data;
+}
