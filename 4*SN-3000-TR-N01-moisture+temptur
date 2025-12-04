@@ -1,4 +1,5 @@
-// PAYLOAD DECODER FOR 4 RS485 SOIL MOISTURE & TEMPERATURE SENSORES (e.g. SMT100, SN-300SD-TR-No1 or RSWS)
+// PAYLOAD DECODER FOR 4* SN-3000-TR-N01 - spol mposture AND temperature sensres
+// CAUTION - calibration code needed!!!!
 
 function Decoder(bytes, port) {
   // Extract battery level from the first 2 bytes
