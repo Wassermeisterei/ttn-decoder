@@ -1,0 +1,38 @@
+function Decoder(input) {
+
+   var decoded = {};
+  
+  
+function CALC_SDI_Data(byte1,byte2,byte3) {
+    // messwert aus den letzten 4 Stellen
+    var messwert_int = byte2*256+byte3;
+    // mantisse_exponent aus den ersten Stellen
+   var mantisse_exponent = byte1 ;
+    var vorzeichen = mantisse_exponent & 128; // wenn <> 0 dann negativ
+    mantisse_exponent = mantisse_exponent ^ vorzeichen; // falls bin 1, dann jetzt 0
+    var vorzeichen_exp = mantisse_exponent & 64; // wenn <> 0 dann negativ
+    var exponent = mantisse_exponent ^ vorzeichen_exp; // falls bin 1, dann jetzt 0
+    if (vorzeichen_exp !== 0) exponent = exponent * -1;   
+    var messwert = messwert_int * Math.pow(10, exponent);
+    if (vorzeichen !== 0) messwert = messwert * -1;
+    return messwert;
+}  
+
+   //Voltage Sender in MilliVolt
+   decoded.VBat = input[0]*30;
+
+   //SMT01
+   decoded.Bodenfeuchte_10cm = CALC_SDI_Data(input[5],input[6],input[7]); //soilmoisture01 ?
+   decoded.Bodentemperatur_10cm = CALC_SDI_Data(input[8],input[9],input[10]); //temperatur01 ?
+   //SMT02
+   decoded.Bodentemperatur_30cm = CALC_SDI_Data(input[11],input[12],input[13]); //temperatur02 ?
+   decoded.Bodenfeuchte_30cm = CALC_SDI_Data(input[14],input[15],input[16]); //soilmoisture02 ?
+   //SMT03
+   decoded.Bodentemperatur_60cm = CALC_SDI_Data(input[17],input[18],input[19]); //temperatur03 ?
+   decoded.Bodenfeuchte_60cm = CALC_SDI_Data(input[20],input[21],input[22]); //soilmoisture03 ?
+   //SMT04
+   decoded.Bodenfeuchte_80cm = CALC_SDI_Data(input[23],input[24],input[25]); //soilmoisture04
+   decoded.Bodentemperatur_80cm = CALC_SDI_Data(input[26],input[27],input[28]); //temperatur04
+
+   return decoded;
+ }
