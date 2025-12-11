@@ -1,0 +1,47 @@
+function decodeUplink(input) {
+  const VBat=input.bytes[0]*30/1000;
+  
+  let BT1=(input.bytes[1]*256+input.bytes[2]);
+  BT1 = BT1 > 61440 ? (BT1-65535)/100:BT1/100;
+  let BT3=(input.bytes[9]*256+input.bytes[10]);
+  BT3 = BT3 > 61440 ? (BT3-65535)/100:BT3/100;
+  let BT6=(input.bytes[17]*256+input.bytes[18]);
+  BT6 = BT6 > 61440 ? (BT6-65535)/100:BT6/100;
+  let BT8=(input.bytes[25]*256+input.bytes[26]);
+  BT8 = BT8 > 61440 ? (BT8-65535)/100:BT8/100;
+  const Bodenfeuchte_10cm=(input.bytes[3]*256+input.bytes[4])/100;
+  const Bodenfeuchte_30cm=(input.bytes[11]*256+input.bytes[12])/100;
+  const Bodenfeuchte_60cm=(input.bytes[19]*256+input.bytes[20])/100;
+  const Bodenfeuchte_80cm=(input.bytes[27]*256+input.bytes[28])/100;  
+  const permittivity1=(input.bytes[5]*256+input.bytes[6])/100;
+  const permittivity2=(input.bytes[13]*256+input.bytes[14])/100;
+  const permittivity3=(input.bytes[21]*256+input.bytes[22])/100;
+  const permittivity4=(input.bytes[29]*256+input.bytes[30])/100;
+  const voltage1=(input.bytes[7]*256+input.bytes[8])/100;
+  const voltage2=(input.bytes[15]*256+input.bytes[16])/100;
+  const voltage3=(input.bytes[23]*256+input.bytes[24])/100;
+  const voltage4=(input.bytes[31]*256+input.bytes[32])/100;  
+  return {
+    data: {
+      VBat,
+      Bodentemperatur_10cm: BT1,
+      Bodentemperatur_30cm: BT3,
+      Bodentemperatur_60cm: BT6,
+      Bodentemperatur_80cm: BT8,      
+      Bodenfeuchte_10cm,
+      Bodenfeuchte_30cm,
+      Bodenfeuchte_60cm,
+      Bodenfeuchte_80cm,     
+      permittivity1,      
+      permittivity2,
+      permittivity3,
+      permittivity4,   
+      voltage1,
+      voltage2,
+      voltage3,
+      voltage4
+    },
+    warnings: [],
+    errors: []
+  };
+}
