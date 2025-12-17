@@ -1,0 +1,55 @@
+function decodeUplink(input) {
+  const bytes = input.bytes;
+  const VBat = (bytes[0] * 30) / 1000;
+  const FrameCounter = bytes[1];
+
+  function decodeSolidus3B(b0, b1, b2) {
+    const valueSign = (b0 >> 7) & 0x01; 
+    const expSign = (b0 >> 6) & 0x01;   
+    const exp = b0 & 0x07;              
+    const mantissa = (b1 << 8) | b2;
+
+    let val = mantissa * Math.pow(10, expSign ? -exp : exp);
+    if (valueSign) val = -val;
+    return val;
+  }
+
+  function read3(offset) {
+    if (offset + 2 >= bytes.length) return null;
+    return decodeSolidus3B(bytes[offset], bytes[offset + 1], bytes[offset + 2]);
+  }
+
+  const dataStart = 2;
+  const permittivity_10cm = read3(dataStart + 0); 
+  const Bodenfeuchte_10cm = read3(dataStart + 3); 
+  const Bodentemperatur_10cm = read3(dataStart + 6); 
+
+  const permittivity_20cm = read3(dataStart + 9); 
+  const Bodenfeuchte_30cm = read3(dataStart + 12);
+  const Bodentemperatur_30cm = read3(dataStart + 15);
+
+  const Regen = (bytes[bytes.length - 2] << 8) | bytes[bytes.length - 1];
+
+  const warnings = [];
+  if (bytes.length !== 22) {
+    warnings.push(
+      `Unerwartete Payload-Laenge: ${bytes.length} Bytes (typisch: 22 Bytes bei 2 SMT100 + Regenzaehler).`
+    );
+  }
+
+  return {
+    data: {
+      VBat,
+      FrameCounter,
+      Bodentemperatur_10cm,      
+      Bodenfeuchte_10cm, 
+      permittivity_10cm,  
+      Bodentemperatur_30cm,      
+      Bodenfeuchte_30cm,         
+      permittivity_20cm,  
+      Regen
+    },
+    warnings,
+    errors: []
+  };
+}
