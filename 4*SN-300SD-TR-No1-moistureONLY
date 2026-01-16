@@ -11,13 +11,13 @@ function Decoder(bytes, port) {
   
   {
     // Extract the values from the bytes, convert to decimal.
-    var moisture = (bytes[3] << 8 | bytes[4]) / 10;
+    var moisture1 = (bytes[3] << 8 | bytes[4]) / 10;
     var moisture2 = (bytes[5] << 8 | bytes[6]) / 10;
     var moisture3 = (bytes[7] << 8 | bytes[8]) / 10;
-    var moisture4= (bytes[9] << 8 | bytes[10]) / 10;
+    var moisture4 = (bytes[9] << 8 | bytes[10]) / 10;
 
     // Assign the values to the data object with dynamic keys
-    data['Bodenfeuchte_10cm'] = moisture;
+    data['Bodenfeuchte_10cm'] = moisture1;
     data['Bodenfeuchte_30cm'] = moisture2;
     data['Bodenfeuchte_60cm'] = moisture3;
     data['Bodenfeuchte_80cm'] = moisture4;
