@@ -1,4 +1,4 @@
-// PAYLOAD DECODER FOR 4 SD-TR-No1-moistureONLY
+// PAYLOAD DECODER FOR 4 SN300SD-TR-No1-moistureONLY
 
 function Decoder(bytes, port) {
   // Extract battery level from the first 2 bytes
