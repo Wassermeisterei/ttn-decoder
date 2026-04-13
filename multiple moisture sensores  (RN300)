@@ -1,0 +1,14 @@
+function Decoder(bytes, port) {
+  var battery = ((bytes[0] << 8 | bytes[1]) / 1000);
+  
+  var data = {
+    Batterie: battery
+  };
+  
+  for (var i = 2, j = 1; i < bytes.length; i += 2, j++) {
+    var moisture = (bytes[i] << 8 | bytes[i + 1]) / 10;
+    data[`Bodenfeuchte_${j}`] = moisture;
+  }
+  
+  return data;
+}
