@@ -1,0 +1,37 @@
+// PAYLOAD DECODER FOR 12 SN300SD-TR-No1-moistureONLY
+
+function Decoder(bytes, port) {
+  var battery = ((bytes[0] << 8 | bytes[1]) / 1000);
+  
+  var data = {
+    Batterie: battery
+  };
+
+  var moisture1  = (bytes[3]  << 8 | bytes[4])  / 10;
+  var moisture2  = (bytes[5]  << 8 | bytes[6])  / 10;
+  var moisture3  = (bytes[7]  << 8 | bytes[8])  / 10;
+  var moisture4  = (bytes[9]  << 8 | bytes[10]) / 10;
+  var moisture5  = (bytes[11] << 8 | bytes[12]) / 10;
+  var moisture6  = (bytes[13] << 8 | bytes[14]) / 10;
+  var moisture7  = (bytes[15] << 8 | bytes[16]) / 10;
+  var moisture8  = (bytes[17] << 8 | bytes[18]) / 10;
+  var moisture9  = (bytes[19] << 8 | bytes[20]) / 10;
+  var moisture10 = (bytes[21] << 8 | bytes[22]) / 10;
+  var moisture11 = (bytes[23] << 8 | bytes[24]) / 10;
+  var moisture12 = (bytes[25] << 8 | bytes[26]) / 10;
+
+  data['Bodenfeuchte_1']  = moisture1;
+  data['Bodenfeuchte_2']  = moisture2;
+  data['Bodenfeuchte_3']  = moisture3;
+  data['Bodenfeuchte_4']  = moisture4;
+  data['Bodenfeuchte_5']  = moisture5;
+  data['Bodenfeuchte_6']  = moisture6;
+  data['Bodenfeuchte_7']  = moisture7;
+  data['Bodenfeuchte_8']  = moisture8;
+  data['Bodenfeuchte_9']  = moisture9;
+  data['Bodenfeuchte_10'] = moisture10;
+  data['Bodenfeuchte_11'] = moisture11;
+  data['Bodenfeuchte_12'] = moisture12;
+
+  return data;
+}
