@@ -1,0 +1,16 @@
+function Decoder(bytes, port) {
+  var labels = ['Bodenfeuchte_10cm', 'Bodenfeuchte_30cm',
+                'Bodenfeuchte_60cm', 'Bodenfeuchte_80cm'];
+
+  var data = {
+    Batterie: (bytes[0] << 8 | bytes[1]) / 1000,
+    PayloadVersion: bytes[2]
+  };
+
+  for (var i = 3, j = 0; i + 1 < bytes.length; i += 2, j++) {
+    var raw = bytes[i] << 8 | bytes[i + 1];
+    var key = labels[j] || ('Bodenfeuchte_' + (j + 1));
+    data[key] = (raw === 0xFFFF) ? null : raw / 10;  // ff ff = Sensor antwortet nicht
+  }
+  return data;
+}
